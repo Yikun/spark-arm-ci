@@ -4,4 +4,4 @@ The Github action triggered CI on Arm Kubernetes env.
 
 # Build Docker Image
 
-docker build . -t hadoop
+docker build . -t spark-arm
