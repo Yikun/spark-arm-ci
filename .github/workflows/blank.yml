@@ -8,9 +8,9 @@ on:
 env:
   ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
   SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-  REGION: "ap-southeast-1"
+  REGION: "ap-southeast-3"
   PROJECT_ID: "948727b76f77426a8209e7581626cb5a"
-  CLUSTER_ID: "3c4b534c-c02d-11eb-9aed-0255ac101fc1"
+  CLUSTER_ID: "9ea920d5-c209-11eb-b949-0255ac1001ea"
 
 jobs:
   build-on-aarch64:
