@@ -5,8 +5,8 @@ on:
     branches:
       - main
   schedule:
-    # Runs at 01:00 UTC (9:00 AM Beijing) every day
-    - cron:  '0 1 * * *'
+    # Runs at 16:00 UTC (00:00 AM Beijing) every day
+    - cron:  '0 16 * * *'
 
 env:
   ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
