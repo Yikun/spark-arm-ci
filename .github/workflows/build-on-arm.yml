@@ -35,4 +35,4 @@ jobs:
       - name: Run with specific image
         run: |-
           kubectl config use-context external
-          kubectl run --rm -i --privileged=true --image yikunkero/spark-arm:latest spark-arm-test-pod
+          kubectl run --rm -i --privileged=true --image yikunkero/spark-arm:latest spark-arm--build-test-pod
