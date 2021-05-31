@@ -1,4 +1,4 @@
-name: Run Spark Master Test Maven on ARM
+name: Run Spark Master Test Python on ARM
 
 on:
   pull_request:
