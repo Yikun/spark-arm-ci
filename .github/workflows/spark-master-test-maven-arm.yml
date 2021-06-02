@@ -38,6 +38,6 @@ jobs:
       - name: Run with specific image
         run: |
           kubectl config use-context external
-          kubectl run --rm -i --privileged=true --image yikunkero/spark-master-test-maven-arm:latest spark-master-test-maven-arm-`date '+%Y%m%d%H%M%y'` --restart=Never
+          kubectl run --rm -i --privileged=true --image yikunkero/spark-master-test-maven-arm-1:latest spark-master-test-maven-arm-`date '+%Y%m%d%H%M%y'` --restart=Never
           STATUS=$?
           echo "Status: $STATUS"
