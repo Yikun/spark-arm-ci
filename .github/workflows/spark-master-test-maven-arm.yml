@@ -13,7 +13,7 @@ env:
   SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
   REGION: "ap-southeast-3"
   PROJECT_ID: "c847fb717563484fa95d18a75ae7831c"
-  CLUSTER_ID: "7b743ef3-c34e-11eb-b949-0255ac1001ea"
+  CLUSTER_ID: "507c33b6-c387-11eb-b949-0255ac1001ea"
 
 jobs:
   build-on-aarch64:
