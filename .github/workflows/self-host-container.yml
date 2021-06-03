@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: self-hosted
     container:
-      image: yikunkero/spark-master-test-maven-arm-1:latest
+      image: yikunkero/spark-master-test-maven-arm-1-notest:latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a single command using the runners shell
@@ -20,4 +20,4 @@ jobs:
         run: |
           set -ex
           cd /spark-master-test-maven-arm
-          build/mvn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-core_2.12,:spark-unsafe_2.12
+          build/mvn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-graphx_2.12,:spark-unsafe_2.12
