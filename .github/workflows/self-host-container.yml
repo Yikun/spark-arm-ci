@@ -16,5 +16,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Run a multi-line script
+        run: |
+          set -ex
+          cd /spark-master-test-maven-arm
+          build/mvn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-core_2.12,:spark-unsafe_2.12
