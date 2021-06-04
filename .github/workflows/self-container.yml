@@ -15,6 +15,7 @@ jobs:
       options: --user spark
     steps:
       # Runs a single command using the runners shell
+      # build/mvn -fn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-core_2.12,:spark-unsafe_2.12
       - name: Run Test Only
         run: |
           set -ex
@@ -29,5 +30,5 @@ jobs:
           git checkout master
           
           cd ~/spark-master-test-maven-arm
-
-          build/mvn -fn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-core_2.12,:spark-unsafe_2.12
+          build/mvn -Dtest=none -DwildcardSuites=org.apache.spark.storage.BlockInfoManagerSuite test -pl :spark-core_2.12
+          
