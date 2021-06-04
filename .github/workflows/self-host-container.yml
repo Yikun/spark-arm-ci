@@ -19,6 +19,18 @@ jobs:
       - name: Run a multi-line script
         run: |
           set -ex
-          cd /home/spark/spark-master-test-maven-arm
+
+          whoami
+          git init ~/spark-master-test-maven-arm
+          cd ~/spark-master-test-maven-arm
+          git --version
+          git fetch --tags --progress -- https://github.com/apache/spark.git +refs/heads/*:refs/remotes/origin/* # timeout=30
+          git config remote.origin.url https://github.com/apache/spark.git # timeout=30
+          git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=30
+          git rev-parse origin/master^{commit} # timeout=30
+          git checkout master
+
+
+          cd ~/spark-master-test-maven-arm
           build/mvn clean package -Paarch64 -Phadoop-3.2 -Phive-2.3 -Phadoop-cloud -Pkinesis-asl -Pyarn -Phive-thriftserver -Pkubernetes -Phive -Pspark-ganglia-lgpl -Pmesos -Pdocker-integration-tests -DskipTests
           build/mvn -fn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-core_2.12,:spark-unsafe_2.12
