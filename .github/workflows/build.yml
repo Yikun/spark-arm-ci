@@ -1,8 +1,8 @@
 name: ci
 
 on:
-  push:
-    branches: main
+  pull_request:
+    branches: [ main ]
 
 jobs:
   main:
@@ -30,3 +30,15 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+  
+  build:
+    runs-on: self-hosted
+    container:
+      image: yikunkero/spark-master-test-maven-arm:latest
+    steps:
+      # Runs a single command using the runners shell
+      # build/mvn -fn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-core_2.12,:spark-unsafe_2.12
+      - name: Run Test Only
+        run: |
+          whoami
+          /entrypoint.sh
