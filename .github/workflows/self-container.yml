@@ -19,5 +19,5 @@ jobs:
       - name: Run a multi-line script
         run: |
           set -ex
-          cd /spark-master-test-maven-arm
+          cd /home/spark/spark-master-test-maven-arm
           build/mvn -fn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-graphx_2.12,:spark-core_2.12
