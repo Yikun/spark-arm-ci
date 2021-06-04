@@ -12,3 +12,21 @@ jobs:
     runs-on: self-hosted
     container:
       image: yikunkero/spark-master-test-maven-arm-1-notest:latest
+    steps:
+      # Runs a single command using the runners shell
+      - name: Run Test Only
+        run: |
+          set -ex
+          whoami
+          git init ~/spark-master-test-maven-arm
+          cd ~/spark-master-test-maven-arm
+          git --version
+          git fetch --tags --progress -- https://github.com/apache/spark.git +refs/heads/*:refs/remotes/origin/* # timeout=30
+          git config remote.origin.url https://github.com/apache/spark.git # timeout=30
+          git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=30
+          git rev-parse origin/master^{commit} # timeout=30
+          git checkout master
+          
+          cd ~/spark-master-test-maven-arm
+
+          build/mvn -fn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-core_2.12,:spark-unsafe_2.12
