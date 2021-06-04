@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: self-hosted
     container:
-      image: yikunkero/spark-master-test-maven-arm-1-notest:latest
+      image: yikunkero/spark-master-test-maven-arm-1:latest
       options: --user spark
     steps:
       # Runs a single command using the runners shell
