@@ -13,4 +13,4 @@ git rev-parse origin/master^{commit} # timeout=30
 git checkout master
 
 cd ~/spark-master-test-maven-arm
-build/mvn -fn -Dtest=none -DwildcardSuites=org.apache.spark.storage.BlockInfoManagerSuite test -pl :spark-core_2.12
+./build/mvn test -fn -Paarch64 -Phadoop-2.7 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos -pl :spark-core_2.12,:spark-unsafe_2.12
