@@ -13,4 +13,4 @@ git rev-parse origin/master^{commit} # timeout=30
 git checkout master
 
 cd ~/spark-master-test-maven-arm
-./build/mvn -fn -Paarch64 -Phadoop-2.7 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end test -pl :spark-sql_2.12,:spark-core_2.12
+./build/mvn test -Paarch64 -Phadoop-2.7 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end -Dmaven.test.failure.ignore=true -pl :spark-sql_2.12,:spark-core_2.12
