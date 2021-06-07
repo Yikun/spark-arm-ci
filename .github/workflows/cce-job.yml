@@ -1,4 +1,4 @@
-name: Run Spark Master Test Maven on ARM
+name: Run Spark Master Test Maven on CCE ARM
 
 on:
   pull_request:
