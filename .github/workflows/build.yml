@@ -34,3 +34,14 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  self-host-job:
+    name: Run job on self-host
+    needs: build
+    runs-on: self-hosted
+    container:
+      image: yikunkero/spark-master-test-maven-arm:latest
+    steps:
+      - name: Run Test Only
+        run: |
+          /entrypoint.sh
