@@ -1,0 +1,43 @@
+name: Run Spark Master Test Maven on ARM
+
+on:
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # Runs at 16:00 UTC (00:00 AM Beijing) every day
+    - cron:  '0 16 * * *'
+
+env:
+  ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+  SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+  REGION: "ap-southeast-3"
+  PROJECT_ID: "c847fb717563484fa95d18a75ae7831c"
+  CLUSTER_ID: "507c33b6-c387-11eb-b949-0255ac1001ea"
+
+jobs:
+  build-on-aarch64:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get kubectl
+        run: |
+          curl -sL https://dl.k8s.io/v1.19.0/kubernetes-client-linux-amd64.tar.gz | tar zx -C $HOME/
+          export PATH=PATH:$HOME/kubernetes/client/bin
+      - uses: huaweicloud/cce-cluster-credentials@v1
+        with:
+          region: "${{ env.REGION }}"
+          access-key-id: "${{ env.ACCESS_KEY_ID }}"
+          access-key-secret: "${{ env.SECRET_ACCESS_KEY }}"
+          project-id: "${{ env.PROJECT_ID }}"
+          cluster-id: "${{ env.CLUSTER_ID }}"
+
+      - name: Run with specific image
+        run: |
+          kubectl config use-context external
+          kubectl run --rm -i --privileged=true --image yikunkero/spark-master-test-maven-arm:latest spark-master-test-maven-arm-`date '+%Y%m%d%H%M%y'` --restart=Never
+          STATUS=$?
+          echo "Status: $STATUS"
