@@ -1,11 +1,11 @@
-name: ci
+name: build and test
 
 on:
-  push:
-    branches: main
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  main:
+  build:
     runs-on: self-hosted
     steps:
       -
@@ -30,3 +30,14 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+  
+  test:
+    needs: build
+    runs-on: self-hosted
+    container:
+      image: yikunkero/spark-master-test-maven-arm:latest
+    steps:
+      - name: Run Test Only
+        run: |
+          whoami
+          /entrypoint.sh
