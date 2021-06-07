@@ -2,6 +2,10 @@ name: build and test
 
 on:
   pull_request:
+    paths:
+    - '.github/workflows/build.yml'
+    - 'Dockerfile'
+    - 'entrypoint.sh'
     branches: [ main ]
 
 jobs:
@@ -30,14 +34,3 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-  
-  test:
-    needs: build
-    runs-on: self-hosted
-    container:
-      image: yikunkero/spark-master-test-maven-arm:latest
-    steps:
-      - name: Run Test Only
-        run: |
-          whoami
-          /entrypoint.sh
