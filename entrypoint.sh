@@ -14,4 +14,4 @@ git checkout master
 
 cd ~/spark-master-test-maven-arm
 
-./build/mvn -fn -Phadoop-2.7 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end -Dmaven.test.failure.ignore=true test -pl :spark-sql_2.12
+./build/mvn test -Paarch64 -Phadoop-3.2 -Pyarn -Phive -Phive-2.3 -Phive-thriftserver -Pkinesis-asl -Pmesos --fail-at-end -Dmaven.test.failure.ignore=true
