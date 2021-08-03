@@ -38,7 +38,7 @@ jobs:
       - name: Run with specific image
         run: |
           kubectl config use-context external
-          kubectl run --rm -i --privileged=true --image yikunkero/spark-multiarch:latest spark-multiarch-`date '+%Y%m%d%H%M%y'` --restart=Never --requests "cpu=4,memory=8Gi" 
+          kubectl run --rm -i --privileged=true --image yikunkero/spark-multiarch:latest spark-multiarch-`date '+%Y%m%d%H%M%y'` --restart=Never --requests "cpu=2,memory=8Gi" 
           STATUS=$?
           echo "Status: $STATUS"
           if [[ $STATUS -ne 0 ]]; then echo "Falsing..."; /bin/false; fi
