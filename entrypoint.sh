@@ -17,3 +17,5 @@ cd ~/spark-master-test-maven-arm
 wget https://raw.githubusercontent.com/Yikun/spark-arm-docker/dynamic/test.sh
 
 chmod +x ./test.sh
+
+./test.sh
