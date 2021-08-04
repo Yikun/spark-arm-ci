@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-ARG spark_uid
+ARG spark_uid=185
 
 RUN useradd -u ${spark_uid} -g root spark
 
