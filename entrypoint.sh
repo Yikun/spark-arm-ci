@@ -14,8 +14,22 @@ git checkout master
 
 cd ~/spark-master-test-maven-arm
 
-wget https://raw.githubusercontent.com/Yikun/spark-arm-docker/dynamic/test.sh
-
-chmod +x ./test.sh
-
-./test.sh
+case $1 in
+scala)
+  export MAVEN_OPTS="-Xss64m -Xmx2g -XX:ReservedCodeCacheSize=1g -Dorg.slf4j.simpleLogger.defaultLogLevel=WARN"
+  export MAVEN_CLI_OPTS="--no-transfer-progress"
+  ./build/mvn $MAVEN_CLI_OPTS -Paarch64 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos -Pkubernetes -Pdocker-integration-tests --fail-at-end -Dmaven.test.failure.ignore=true test
+  ;;
+build)
+  echo "build start"
+  ;;
+python)
+  echo "python test start"
+  ;;
+*)
+  echo "Unknow, try test.sh"
+  wget https://raw.githubusercontent.com/Yikun/spark-arm-docker/main/test.sh
+  chmod +x ./test.sh
+  ./test.sh
+  ;;
+esac
