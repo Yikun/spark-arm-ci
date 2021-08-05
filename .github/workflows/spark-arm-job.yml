@@ -1,4 +1,4 @@
-name: Run Spark Master Test Python on ARM
+name: Spark Test on ARM
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ env:
   CLUSTER_ID: "75712c59-f430-11eb-8809-0255ac1001df"
 
 jobs:
-  pyspark-arm:
+  spark-arm:
     name: Test Spark on ARM64 - ${{ matrix.modules }}
     strategy:
       # ${{ matrix.job_type }}
