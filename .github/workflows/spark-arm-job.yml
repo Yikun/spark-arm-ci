@@ -93,6 +93,7 @@ jobs:
       - name: Run build and test job
         run: |
           kubectl config use-context external
+
           kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
                   --requests "cpu=2,memory=4Gi" \
                   spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM --restart=Never \
