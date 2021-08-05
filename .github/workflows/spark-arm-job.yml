@@ -16,8 +16,7 @@ env:
 
 jobs:
   scala-arm:
-    name: Test Spark on ARM64 - ${{ matrix.modules }}
-
+    name: "Test Spark on ARM64: ${{ matrix.modules }} ${{ matrix.comment }} (JDK ${{ matrix.java }}, ${{ matrix.hadoop }}, ${{ matrix.hive }})"
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -73,15 +72,6 @@ jobs:
             hive: hive2.3
             excluded-tags: org.apache.spark.tags.ExtendedSQLTest
             comment: "- other tests"
-    env:
-      MODULES_TO_TEST: ${{ matrix.modules }}
-      EXCLUDED_TAGS: ${{ matrix.excluded-tags }}
-      INCLUDED_TAGS: ${{ matrix.included-tags }}
-      HADOOP_PROFILE: ${{ matrix.hadoop }}
-      HIVE_PROFILE: ${{ matrix.hive }}
-      GITHUB_PREV_SHA: ${{ github.event.before }}
-      SPARK_LOCAL_IP: localhost
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -106,12 +96,13 @@ jobs:
           kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
                   --requests "cpu=4,memory=8Gi" \
                   spark-multiarch-`date '+%Y-%m-%d-%H%M%y-%s'` --restart=Never \
-                  --env="MODULES_TO_TEST=${{ MODULES_TO_TEST }}" \
-                  --env="EXCLUDED_TAGS=${{ EXCLUDED_TAGS }}" \
-                  --env="INCLUDED_TAGS=${{ INCLUDED_TAGS }}" \
-                  --env="HADOOP_PROFILE=${{ HADOOP_PROFILE }}" \
-                  --env="HIVE_PROFILE=${{ HIVE_PROFILE }}" \
-                  --env="SPARK_LOCAL_IP=${{ SPARK_LOCAL_IP }}" \
+                  --env="MODULES_TO_TEST=${{ matrix.modules }}" \
+                  --env="EXCLUDED_TAGS=${{ matrix.excluded-tags }}" \
+                  --env="INCLUDED_TAGS=${{ matrix.included-tags }}" \
+                  --env="HADOOP_PROFILE=${{ matrix.hadoop }}" \
+                  --env="HIVE_PROFILE=${{ matrix.hive }}" \
+                  --env="SPARK_LOCAL_IP=${{ matrix.hive }}" \
+                  --env="SPARK_LOCAL_IP=localhost" \
                   scala
           STATUS=$?
           echo "Status: $STATUS"
