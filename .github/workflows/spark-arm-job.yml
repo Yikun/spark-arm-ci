@@ -95,7 +95,7 @@ jobs:
           kubectl config use-context external
           kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
                   --requests "cpu=2,memory=4Gi" \
-                  spark-${{ matrix.modules }}-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM --restart=Never \
+                  spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM --restart=Never \
                   --env="MODULES_TO_TEST=${{ matrix.modules }}" \
                   --env="EXCLUDED_TAGS=${{ matrix.excluded-tags }}" \
                   --env="INCLUDED_TAGS=${{ matrix.included-tags }}" \
