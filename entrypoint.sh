@@ -14,7 +14,7 @@ git checkout master
 
 cd ~/spark-master-test-maven-arm
 
-export MAVEN_OPTS="-Xss64m -Xmx2g -XX:ReservedCodeCacheSize=1g -Dorg.slf4j.simpleLogger.defaultLogLevel=WARN"
+export MAVEN_OPTS="-Xss64m -Xmx2g -XX:ReservedCodeCacheSize=1g"
 export MAVEN_CLI_OPTS="--no-transfer-progress"
 
 case $1 in
