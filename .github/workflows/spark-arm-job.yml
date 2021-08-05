@@ -1,9 +1,6 @@
 name: Spark Test on ARM
 
 on:
-  pull_request:
-    branches:
-      - main
   schedule:
     - cron:  '0 */3 * * *'
 
