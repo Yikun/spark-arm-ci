@@ -5,7 +5,6 @@ on:
     branches:
       - main
   schedule:
-    # Runs at 00:00 UTC (08:00 AM Beijing) every day
     - cron:  '0 */3 * * *'
 
 env:
@@ -17,7 +16,14 @@ env:
 
 jobs:
   pyspark-arm:
-    name: PySpark test on arm64
+    name: Test Spark on ARM64 - ${{ matrix.modules }}
+    strategy:
+      # ${{ matrix.job_type }}
+      matrix:
+        job_type:
+          - python
+          - build
+
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -37,10 +43,10 @@ jobs:
           project-id: "${{ env.PROJECT_ID }}"
           cluster-id: "${{ env.CLUSTER_ID }}"
 
-      - name: Run PySpark build and test job
+      - name: Run build and test job
         run: |
           kubectl config use-context external
-          kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always spark-multiarch-`date '+%Y%m%d%H%M%y'` --restart=Never --requests "cpu=2,memory=4Gi" python
+          kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always spark-multiarch-`date '+%Y%m%d%H%M%y'` --restart=Never --requests "cpu=2,memory=4Gi" ${{ matrix.job_type }}
           STATUS=$?
           echo "Status: $STATUS"
           if [[ $STATUS -ne 0 ]]; then echo "Falsing..."; /bin/false; fi
