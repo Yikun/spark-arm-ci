@@ -30,7 +30,7 @@ scala)
   echo 'SPARK_LOCAL_IP: '$SPARK_LOCAL_IP
   if [[ "$MODULES_TO_TEST" == "hive" ]] && [[ "$EXCLUDED_TAGS" == "org.apache.spark.tags.SlowHiveTest" ]]; then export METASPACE_SIZE=2g; fi
   export SERIAL_SBT_TESTS=1
-  echo './dev/run-tests --parallelism 1 --modules "$MODULES_TO_TEST" --included-tags "$INCLUDED_TAGS" --excluded-tags "$EXCLUDED_TAGS"'
+  ./dev/run-tests --parallelism 1 --modules "$MODULES_TO_TEST" --included-tags "$INCLUDED_TAGS" --excluded-tags "$EXCLUDED_TAGS"
   ;;
 build)
   echo "Build start"
