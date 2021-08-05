@@ -46,7 +46,7 @@ jobs:
       - name: Run build and test job
         run: |
           kubectl config use-context external
-          kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always spark-multiarch-`date '+%Y%m%d%H%M%y'` --restart=Never --requests "cpu=2,memory=4Gi" ${{ matrix.job_type }}
+          kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always spark-multiarch-`date '+%Y-%m-%d-%H%M%y-%s'` --restart=Never --requests "cpu=2,memory=4Gi" ${{ matrix.job_type }}
           STATUS=$?
           echo "Status: $STATUS"
           if [[ $STATUS -ne 0 ]]; then echo "Falsing..."; /bin/false; fi
