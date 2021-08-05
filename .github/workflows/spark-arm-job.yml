@@ -19,7 +19,6 @@ jobs:
     name: "Test Spark on ARM64: ${{ matrix.modules }} ${{ matrix.comment }} (JDK ${{ matrix.java }}, ${{ matrix.hadoop }}, ${{ matrix.hive }})"
     runs-on: ubuntu-20.04
     strategy:
-      fail-fast: false
       matrix:
         java:
           - 8
