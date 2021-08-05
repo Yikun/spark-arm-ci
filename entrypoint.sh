@@ -28,7 +28,7 @@ build)
   ;;
 python)
   echo "PySpark test start"
-   ./dev/run-tests --parallelism 1 --modules "pyspark-sql, pyspark-mllib, pyspark-resource, pyspark-core, pyspark-streaming, pyspark-ml, pyspark-pandas, pyspark-pandas-slow"
+  ./dev/run-tests --parallelism 1 --modules "pyspark-sql, pyspark-mllib, pyspark-resource, pyspark-core, pyspark-streaming, pyspark-ml, pyspark-pandas, pyspark-pandas-slow"
   ;;
 *)
   echo "Unknow, try test.sh"
