@@ -6,7 +6,7 @@ on:
       - main
   schedule:
     # Runs at 00:00 UTC (08:00 AM Beijing) every day
-    - cron:  '0 0 * * *'
+    - cron:  '0 */3 * * *'
 
 env:
   ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
@@ -16,9 +16,9 @@ env:
   CLUSTER_ID: "75712c59-f430-11eb-8809-0255ac1001df"
 
 jobs:
-  run-on-k8s-arm-cluster:
+  pyspark-arm:
+    name: PySpark test on arm64
     runs-on: ubuntu-20.04
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -27,7 +27,9 @@ jobs:
         run: |
           curl -sL https://dl.k8s.io/v1.19.0/kubernetes-client-linux-amd64.tar.gz | tar zx -C $HOME/
           export PATH=PATH:$HOME/kubernetes/client/bin
-      - uses: huaweicloud/cce-cluster-credentials@v1
+
+      - name: Get ARM cluster credetials
+        uses: huaweicloud/cce-cluster-credentials@v1
         with:
           region: "${{ env.REGION }}"
           access-key-id: "${{ env.ACCESS_KEY_ID }}"
@@ -35,10 +37,10 @@ jobs:
           project-id: "${{ env.PROJECT_ID }}"
           cluster-id: "${{ env.CLUSTER_ID }}"
 
-      - name: Run with specific image
+      - name: Run PySpark build and test job
         run: |
           kubectl config use-context external
-          kubectl run --rm -i --privileged=true --image yikunkero/spark-multiarch:latest --image-pull-policy=Always spark-multiarch-`date '+%Y%m%d%H%M%y'` --restart=Never --requests "cpu=2,memory=4Gi" python
+          kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always spark-multiarch-`date '+%Y%m%d%H%M%y'` --restart=Never --requests "cpu=2,memory=4Gi" python
           STATUS=$?
           echo "Status: $STATUS"
           if [[ $STATUS -ne 0 ]]; then echo "Falsing..."; /bin/false; fi
