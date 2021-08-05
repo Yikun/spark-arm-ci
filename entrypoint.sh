@@ -14,17 +14,21 @@ git checkout master
 
 cd ~/spark-master-test-maven-arm
 
+export MAVEN_OPTS="-Xss64m -Xmx2g -XX:ReservedCodeCacheSize=1g -Dorg.slf4j.simpleLogger.defaultLogLevel=WARN"
+export MAVEN_CLI_OPTS="--no-transfer-progress"
+
 case $1 in
 scala)
-  export MAVEN_OPTS="-Xss64m -Xmx2g -XX:ReservedCodeCacheSize=1g -Dorg.slf4j.simpleLogger.defaultLogLevel=WARN"
-  export MAVEN_CLI_OPTS="--no-transfer-progress"
+  echo "Scala test start"
   ./build/mvn $MAVEN_CLI_OPTS -Paarch64 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos -Pkubernetes -Pdocker-integration-tests --fail-at-end -Dmaven.test.failure.ignore=true test
   ;;
 build)
-  echo "build start"
+  echo "Build start"
+  ./build/mvn $MAVEN_CLI_OPTS clean package -DskipTests -Paarch64 -Phadoop-2.7 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos
   ;;
 python)
-  echo "python test start"
+  echo "PySpark test start"
+  ./dev/run-tests --parallelism 1 --modules "pyspark-sql, pyspark-mllib, pyspark-resource, pyspark-core, pyspark-streaming, pyspark-ml, pyspark-pandas, pyspark-pandas-slow"
   ;;
 *)
   echo "Unknow, try test.sh"
