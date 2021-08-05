@@ -21,7 +21,7 @@ case $1 in
 scala)
   echo "Scala test start"
   # ./build/mvn $MAVEN_CLI_OPTS -Paarch64 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos -Pkubernetes -Pdocker-integration-tests --fail-at-end -Dmaven.test.failure.ignore=true test
-    # Hive "other tests" test needs larger metaspace size based on experiment.
+  # Hive "other tests" test needs larger metaspace size based on experiment.
   echo 'MODULES_TO_TEST: '$MODULES_TO_TEST
   echo 'EXCLUDED_TAGS: '$EXCLUDED_TAGS
   echo 'INCLUDED_TAGS: '$INCLUDED_TAGS
