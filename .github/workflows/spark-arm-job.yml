@@ -81,9 +81,6 @@ jobs:
       HIVE_PROFILE: ${{ matrix.hive }}
       GITHUB_PREV_SHA: ${{ github.event.before }}
       SPARK_LOCAL_IP: localhost
-      IMAGE: yikunkero/spark-multiarch:latest
-      CPU: 4
-      MEM: 8Gi
 
     steps:
       - name: Checkout
@@ -106,8 +103,8 @@ jobs:
       - name: Run build and test job
         run: |
           kubectl config use-context external
-          kubectl run --rm -i --image ${{ IMAGE }} --image-pull-policy=Always \
-                  --requests "cpu=${{ CPU }},memory=${{ MEM }}" \
+          kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
+                  --requests "cpu=4,memory=8Gi" \
                   spark-multiarch-`date '+%Y-%m-%d-%H%M%y-%s'` --restart=Never \
                   --env="MODULES_TO_TEST=${{ MODULES_TO_TEST }}" \
                   --env="EXCLUDED_TAGS=${{ EXCLUDED_TAGS }}" \
