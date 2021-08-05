@@ -20,7 +20,17 @@ export MAVEN_CLI_OPTS="--no-transfer-progress"
 case $1 in
 scala)
   echo "Scala test start"
-  ./build/mvn $MAVEN_CLI_OPTS -Paarch64 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos -Pkubernetes -Pdocker-integration-tests --fail-at-end -Dmaven.test.failure.ignore=true test
+  # ./build/mvn $MAVEN_CLI_OPTS -Paarch64 -Pyarn -Phive -Phive-thriftserver -Pkinesis-asl -Pmesos -Pkubernetes -Pdocker-integration-tests --fail-at-end -Dmaven.test.failure.ignore=true test
+    # Hive "other tests" test needs larger metaspace size based on experiment.
+  echo 'MODULES_TO_TEST: '$MODULES_TO_TEST
+  echo 'EXCLUDED_TAGS: '$EXCLUDED_TAGS
+  echo 'INCLUDED_TAGS: '$INCLUDED_TAGS
+  echo 'HADOOP_PROFILE: '$HADOOP_PROFILE
+  echo 'HIVE_PROFILE: '$HIVE_PROFILE
+  echo 'SPARK_LOCAL_IP: '$SPARK_LOCAL_IP
+  if [[ "$MODULES_TO_TEST" == "hive" ]] && [[ "$EXCLUDED_TAGS" == "org.apache.spark.tags.SlowHiveTest" ]]; then export METASPACE_SIZE=2g; fi
+  export SERIAL_SBT_TESTS=1
+  ./dev/run-tests --parallelism 1 --modules "$MODULES_TO_TEST" --included-tags "$INCLUDED_TAGS" --excluded-tags "$EXCLUDED_TAGS"
   ;;
 build)
   echo "Build start"
