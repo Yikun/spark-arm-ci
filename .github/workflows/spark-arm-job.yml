@@ -140,6 +140,7 @@ jobs:
                   --env="HIVE_PROFILE=${{ matrix.hive }}" \
                   --env="SPARK_LOCAL_IP=${{ matrix.hive }}" \
                   --env="SPARK_LOCAL_IP=localhost" \
+                  --timeout 3m \
                   scala
           STATUS=$?
           echo "Status: $STATUS"
