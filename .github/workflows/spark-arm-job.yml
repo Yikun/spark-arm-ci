@@ -1,6 +1,9 @@
 name: Spark Test on ARM
 
 on:
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron:  '0 */3 * * *'
 
@@ -13,6 +16,7 @@ env:
 
 jobs:
   spark-arm:
+    if: ${{ false }}
     name: Test Spark on ARM64 - ${{ matrix.modules }}
     strategy:
       # ${{ matrix.job_type }}
