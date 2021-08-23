@@ -41,14 +41,16 @@ jobs:
           cluster-id: "${{ env.CLUSTER_ID }}"
       - name: Run build and test job
         run: |
+          POD=spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM
           kubectl config use-context external
           kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
                   --requests "cpu=4,memory=8Gi" \
-                  spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM --restart=Never \
+                  $POD --restart=Never \
                   --timeout 3m \
                   ${{ matrix.type }}
           STATUS=$?
           echo "Status: $STATUS"
+          kubectl delete pod $POD --grace-period=0 --force
           if [[ $STATUS -ne 0 ]]; then echo "Job failed..."; /bin/false; fi
 
   spark-arm:
@@ -144,7 +146,5 @@ jobs:
                   scala
           STATUS=$?
           echo "Status: $STATUS"
-
           kubectl delete pod $POD --grace-period=0 --force
-
           if [[ $STATUS -ne 0 ]]; then echo "Job failed..."; /bin/false; fi
