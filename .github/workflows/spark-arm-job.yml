@@ -65,7 +65,7 @@ jobs:
         java:
           - 8
         hadoop:
-          - hadoop3.2
+          - hadoop3
         hive:
           - hive2.3
         # TODO(SPARK-32246): We don't test 'streaming-kinesis-asl' for now.
