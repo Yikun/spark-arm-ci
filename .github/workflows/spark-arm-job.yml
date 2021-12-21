@@ -50,7 +50,7 @@ jobs:
                   ${{ matrix.type }}
           STATUS=$?
           echo "Status: $STATUS"
-          kubectl delete -f POD_NAME || true
+          kubectl delete -f $POD_NAME || true
           if [[ $STATUS -ne 0 ]]; then echo "Job failed..."; /bin/false; fi
 
   spark-arm:
@@ -146,5 +146,5 @@ jobs:
                   scala
           STATUS=$?
           echo "Status: $STATUS"
-          kubectl delete -f POD_NAME || true
+          kubectl delete -f $POD_NAME || true
           if [[ $STATUS -ne 0 ]]; then echo "Job failed..."; /bin/false; fi
