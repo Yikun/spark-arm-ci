@@ -11,7 +11,7 @@ env:
   SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
   REGION: "ap-southeast-3"
   PROJECT_ID: "c847fb717563484fa95d18a75ae7831c"
-  CLUSTER_ID: "75712c59-f430-11eb-8809-0255ac1001df"
+  CLUSTER_ID: ${{ secrets.CLUSTER_ID }}
 
 jobs:
   build-arm:
@@ -43,29 +43,24 @@ jobs:
         run: |
           kubectl config use-context external
           POD_NAME=spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM
-          kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
-                  --requests "cpu=4,memory=8Gi" \
-                  $POD_NAME --restart=Never \
-                  --timeout 3m \
-                  ${{ matrix.type }}
+          echo "hello"
           STATUS=$?
           echo "Status: $STATUS"
           kubectl delete -f POD_NAME || true
           if [[ $STATUS -ne 0 ]]; then echo "Job failed..."; /bin/false; fi
 
   spark-arm:
-    if: always()
     needs: build-arm
     name: "Spark on ARM64: ${{ matrix.modules }} ${{ matrix.comment }} (JDK ${{ matrix.java }}, ${{ matrix.hadoop }}, ${{ matrix.hive }})"
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 3
       matrix:
         java:
           - 8
         hadoop:
-          - hadoop3.2
+          - hadoop3
         hive:
           - hive2.3
         # TODO(SPARK-32246): We don't test 'streaming-kinesis-asl' for now.
@@ -90,26 +85,26 @@ jobs:
         # Hive tests
           - modules: hive
             java: 8
-            hadoop: hadoop3.2
+            hadoop: hadoop3
             hive: hive2.3
             included-tags: org.apache.spark.tags.SlowHiveTest
             comment: "- slow tests"
           - modules: hive
             java: 8
-            hadoop: hadoop3.2
+            hadoop: hadoop3
             hive: hive2.3
             excluded-tags: org.apache.spark.tags.SlowHiveTest
             comment: "- other tests"
           # SQL tests
           - modules: sql
             java: 8
-            hadoop: hadoop3.2
+            hadoop: hadoop3
             hive: hive2.3
             included-tags: org.apache.spark.tags.ExtendedSQLTest
             comment: "- slow tests"
           - modules: sql
             java: 8
-            hadoop: hadoop3.2
+            hadoop: hadoop3
             hive: hive2.3
             excluded-tags: org.apache.spark.tags.ExtendedSQLTest
             comment: "- other tests"
