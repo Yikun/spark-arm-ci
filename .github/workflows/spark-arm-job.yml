@@ -11,7 +11,7 @@ env:
   SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
   REGION: "ap-southeast-3"
   PROJECT_ID: "c847fb717563484fa95d18a75ae7831c"
-  CLUSTER_ID:  ${{ secrets.SECRET_ACCESS_KEY }}
+  CLUSTER_ID:  ${{ secrets.CLUSTER_ID }}
 
 jobs:
   build-arm:
