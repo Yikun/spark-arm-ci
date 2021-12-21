@@ -42,13 +42,15 @@ jobs:
       - name: Run build and test job
         run: |
           kubectl config use-context external
+          POD_NAME=spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM
           kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
                   --requests "cpu=4,memory=8Gi" \
-                  spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM --restart=Never \
+                  $POD_NAME --restart=Never \
                   --timeout 3m \
                   ${{ matrix.type }}
           STATUS=$?
           echo "Status: $STATUS"
+          kubectl delete -f POD_NAME || true
           if [[ $STATUS -ne 0 ]]; then echo "Job failed..."; /bin/false; fi
 
   spark-arm:
@@ -129,9 +131,10 @@ jobs:
       - name: Run build and test job
         run: |
           kubectl config use-context external
+          POD_NAME=spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM
           kubectl run --rm -i --image yikunkero/spark-multiarch:latest --image-pull-policy=Always \
                   --requests "cpu=4,memory=8Gi" \
-                  spark-`date '+%Y-%m-%d-%H%M%y-%s'`-$RANDOM --restart=Never \
+                  $POD_NAME --restart=Never \
                   --env="MODULES_TO_TEST=${{ matrix.modules }}" \
                   --env="EXCLUDED_TAGS=${{ matrix.excluded-tags }}" \
                   --env="INCLUDED_TAGS=${{ matrix.included-tags }}" \
@@ -143,4 +146,5 @@ jobs:
                   scala
           STATUS=$?
           echo "Status: $STATUS"
+          kubectl delete -f POD_NAME || true
           if [[ $STATUS -ne 0 ]]; then echo "Job failed..."; /bin/false; fi
