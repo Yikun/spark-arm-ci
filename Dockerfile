@@ -11,8 +11,4 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y git wget curl openjdk-8-jdk 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN python3.8 -m pip install numpy 'pyarrow<5.0.0' pandas scipy xmlrunner
 
-ADD entrypoint.sh /
-
-ENTRYPOINT ["/entrypoint.sh"]
-
 USER ${spark_uid}
